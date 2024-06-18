@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { usuario } from './usuario.entity';
+import { Usuario } from './usuario.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
@@ -7,11 +7,11 @@ import { CreateUsuarioDto } from './dto/create-usuario.dto';
 @Injectable()
 export class UsuariosService {
   constructor(
-    @InjectRepository(usuario) private usuarioRepository: Repository<usuario>,
+    @InjectRepository(Usuario) private usuarioRepository: Repository<Usuario>,
   ) {}
 
-  createUsuario(usuario: CreateUsuarioDto) {
-    const newUsuario = this.usuarioRepository.create(usuario);
+  createUsuario(Usuario: CreateUsuarioDto) {
+    const newUsuario = this.usuarioRepository.create(Usuario);
     return this.usuarioRepository.save(newUsuario);
   }
 }
