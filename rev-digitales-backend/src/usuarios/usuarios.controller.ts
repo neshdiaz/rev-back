@@ -11,7 +11,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
-import { Usuario } from './usuario.entity';
+//import { Usuario } from './usuario.entity';
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private usuariosService: UsuariosService) {}
@@ -27,7 +27,7 @@ export class UsuariosController {
   }
 
   @Get(':id')
-  getUsuario(@Param('id', ParseIntPipe) id: number): Promise<Usuario> {
+  getUsuario(@Param('id', ParseIntPipe) id: number) {
     return this.usuariosService.getUsuario(id);
   }
 

@@ -4,14 +4,27 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-
+import { HttpException, HttpStatus } from '@nestjs/common';
 @Injectable()
 export class UsuariosService {
   constructor(
     @InjectRepository(Usuario) private usuarioRepository: Repository<Usuario>,
   ) {}
 
-  createUsuario(Usuario: CreateUsuarioDto): Promise<Usuario> {
+  async createUsuario(Usuario: CreateUsuarioDto) {
+    const userFound = await this.usuarioRepository.findOne({
+      where: {
+        username: Usuario.username,
+      },
+    });
+
+    if (userFound) {
+      return new HttpException(
+        'Este nombre de susuario ya existe',
+        HttpStatus.CONFLICT,
+      );
+    }
+
     const newUsuario = this.usuarioRepository.create(Usuario);
     return this.usuarioRepository.save(newUsuario);
   }
@@ -20,19 +33,52 @@ export class UsuariosService {
     return this.usuarioRepository.find();
   }
 
-  getUsuario(id: number) {
-    return this.usuarioRepository.findOne({
+  async getUsuario(id: number) {
+    const userFound = await this.usuarioRepository.findOne({
       where: {
         id,
       },
     });
+
+    if (!userFound) {
+      return new HttpException(
+        'Este id de usuario no existe',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return userFound;
   }
 
-  deleteUsuario(id: number) {
+  async deleteUsuario(id: number) {
+    const userFound = await this.usuarioRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!userFound) {
+      return new HttpException(
+        'Este id de usuario no existe',
+        HttpStatus.NOT_FOUND,
+      );
+    }
     return this.usuarioRepository.delete(id);
   }
 
-  updateUsuario(id: number, Usuario: UpdateUsuarioDto) {
+  async updateUsuario(id: number, Usuario: UpdateUsuarioDto) {
+    const userFound = await this.usuarioRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!userFound) {
+      return new HttpException(
+        'Este id de usuario no existe',
+        HttpStatus.NOT_FOUND,
+      );
+    }
     return this.usuarioRepository.update(id, Usuario);
   }
 }
