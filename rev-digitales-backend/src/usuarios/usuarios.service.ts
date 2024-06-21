@@ -20,7 +20,7 @@ export class UsuariosService {
 
     if (userFound) {
       return new HttpException(
-        'Este nombre de susuario ya existe',
+        'Este nombre de usuario ya existe',
         HttpStatus.CONFLICT,
       );
     }
@@ -51,19 +51,13 @@ export class UsuariosService {
   }
 
   async deleteUsuario(id: number) {
-    const userFound = await this.usuarioRepository.findOne({
-      where: {
-        id,
-      },
-    });
+    const result = await this.usuarioRepository.delete(id);
 
-    if (!userFound) {
-      return new HttpException(
-        'Este id de usuario no existe',
-        HttpStatus.NOT_FOUND,
-      );
+    if (result.affected === 0) {
+      return new HttpException('El elemento no existe', HttpStatus.NOT_FOUND);
     }
-    return this.usuarioRepository.delete(id);
+
+    return result;
   }
 
   async updateUsuario(id: number, Usuario: UpdateUsuarioDto) {
@@ -79,6 +73,7 @@ export class UsuariosService {
         HttpStatus.NOT_FOUND,
       );
     }
+
     return this.usuarioRepository.update(id, Usuario);
   }
 }
