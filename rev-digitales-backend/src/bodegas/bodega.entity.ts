@@ -1,4 +1,6 @@
 import { Plataforma } from 'src/plataformas/plataforma.entity';
+//import { Usuario } from 'src/usuarios/usuario.entity';
+
 import {
   Column,
   CreateDateColumn,
@@ -16,7 +18,7 @@ export class Bodega {
   @Column()
   nombre: string;
 
-  @Column()
+  @Column({ nullable: true })
   encargado: number;
 
   @Column({ default: false })
