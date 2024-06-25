@@ -1,7 +1,10 @@
+import { Compra } from 'src/compras/compra.entity';
+
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -31,6 +34,9 @@ export class Proveedor {
 
   @Column({ nullable: true })
   image: string;
+
+  @OneToMany(() => Compra, (compra) => compra.proveedor)
+  compras: Compra[];
 
   @CreateDateColumn()
   created: Date;

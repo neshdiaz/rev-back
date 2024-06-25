@@ -1,10 +1,13 @@
 import { Plataforma } from 'src/plataformas/plataforma.entity';
+import { Usuario } from 'src/usuarios/usuario.entity';
 //import { Usuario } from 'src/usuarios/usuario.entity';
 
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -18,8 +21,10 @@ export class Bodega {
   @Column()
   nombre: string;
 
-  @Column({ nullable: true })
-  encargado: number;
+  // encargados ManyToMany
+  @ManyToMany(() => Usuario)
+  @JoinTable()
+  encargados: Usuario[];
 
   @Column({ default: false })
   isPrincipal: boolean;

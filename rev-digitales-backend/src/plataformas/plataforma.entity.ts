@@ -60,7 +60,7 @@ export class Plataforma {
   fecha_pagada: Date;
 
   @Column({ nullable: true })
-  vencimiento: Date;
+  vigencia: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   costo_unitario: number;
