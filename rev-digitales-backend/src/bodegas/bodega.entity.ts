@@ -21,7 +21,6 @@ export class Bodega {
   @Column()
   nombre: string;
 
-  // encargados ManyToMany
   @ManyToMany(() => Usuario)
   @JoinTable()
   encargados: Usuario[];

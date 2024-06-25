@@ -1,9 +1,12 @@
+import { TipoPlataforma } from 'src/plataformas/tipo_plataforma.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  JoinTable,
+  ManyToMany,
 } from 'typeorm';
 
 export enum UserRol {
@@ -40,8 +43,9 @@ export class Usuario {
   @Column({ default: true })
   isActive: boolean;
 
-  @Column({ nullable: true })
-  image: string;
+  @ManyToMany(() => TipoPlataforma)
+  @JoinTable()
+  tipos_plataforma: TipoPlataforma[];
 
   @CreateDateColumn()
   created: Date;

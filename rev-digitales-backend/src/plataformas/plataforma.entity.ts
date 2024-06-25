@@ -1,9 +1,11 @@
 import { Bodega } from 'src/bodegas/bodega.entity';
+import { Compra } from 'src/compras/compra.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -48,7 +50,14 @@ export class Plataforma {
     enum: paymentState,
     default: paymentState.PENDIENTE_PAGO,
   })
-  payment_state: string;
+  payment_proveedor_state: string;
+
+  @Column({
+    type: 'enum',
+    enum: paymentState,
+    default: paymentState.PENDIENTE_PAGO,
+  })
+  payment_vendedor_state: string;
 
   @Column({ nullable: true })
   fecha_compra: Date;
@@ -63,7 +72,10 @@ export class Plataforma {
   vigencia: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
-  costo_unitario: number;
+  costo_unitario_compra: number;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  costo_unitario_venta: number;
 
   @Column({ nullable: true })
   image: string;
@@ -81,6 +93,9 @@ export class Plataforma {
     enum: grupo,
   })
   grupo: string;
+
+  @ManyToMany(() => Compra, (compra) => compra.plataformas)
+  compras: Compra[];
 
   @CreateDateColumn()
   created: Date;

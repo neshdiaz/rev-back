@@ -1,3 +1,4 @@
+import { Plataforma } from 'src/plataformas/plataforma.entity';
 import { Proveedor } from 'src/proveedores/proveedor.entity';
 
 import {
@@ -5,6 +6,8 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -18,16 +21,16 @@ export class Compra {
   @Column()
   fecha: Date;
 
-  /*
-    detalle_compra[] OneToMany
-  */
-
   @Column()
   proveedor_id: number;
 
   @ManyToOne(() => Proveedor, (proveedor) => proveedor.compras)
   @JoinColumn()
   proveedor: Proveedor;
+
+  @ManyToMany(() => Plataforma, (plataforma) => plataforma.compras)
+  @JoinTable({ name: 'compra_detalle' })
+  plataformas: Plataforma[];
 
   @CreateDateColumn()
   created: Date;
