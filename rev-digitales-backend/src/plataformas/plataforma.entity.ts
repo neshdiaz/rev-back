@@ -104,6 +104,9 @@ export class Plataforma {
   })
   grupo: string;
 
+  @Column({ nullable: true })
+  notes: string;
+
   @ManyToMany(() => Compra, (compra) => compra.plataformas)
   compras: Compra[];
 
