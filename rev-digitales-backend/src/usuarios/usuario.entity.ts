@@ -1,4 +1,5 @@
-import { TipoPlataforma } from 'src/plataformas/tipo_plataforma.entity';
+import { Bodega } from 'src/bodegas/bodega.entity';
+
 import {
   Column,
   CreateDateColumn,
@@ -43,9 +44,9 @@ export class Usuario {
   @Column({ default: true })
   isActive: boolean;
 
-  @ManyToMany(() => TipoPlataforma)
+  @ManyToMany(() => Bodega, (bodega) => bodega.responsables)
   @JoinTable()
-  tipos_plataforma: TipoPlataforma[];
+  responsable_bodegas: Bodega[];
 
   @CreateDateColumn()
   created: Date;

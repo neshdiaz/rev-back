@@ -6,7 +6,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -21,9 +20,8 @@ export class Bodega {
   @Column()
   nombre: string;
 
-  @ManyToMany(() => Usuario)
-  @JoinTable()
-  encargados: Usuario[];
+  @ManyToMany(() => Usuario, (usuario) => usuario.responsable_bodegas)
+  responsables: Usuario[];
 
   @Column({ default: false })
   isPrincipal: boolean;

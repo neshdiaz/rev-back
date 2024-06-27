@@ -1,5 +1,6 @@
 import { Bodega } from 'src/bodegas/bodega.entity';
 import { Compra } from 'src/compras/compra.entity';
+import { TipoPlataforma } from './tipo_plataforma.entity';
 import {
   Column,
   CreateDateColumn,
@@ -32,6 +33,12 @@ export class Plataforma {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ManyToOne(
+    () => TipoPlataforma,
+    (tipo_plataforma) => tipo_plataforma.plataformas,
+  )
+  tipo_plataforma: TipoPlataforma;
+
   @Column()
   correo: string;
 
@@ -52,6 +59,9 @@ export class Plataforma {
   })
   payment_proveedor_state: string;
 
+  @Column({ nullable: true })
+  fecha_pagada_proveedor: Date;
+
   @Column({
     type: 'enum',
     enum: paymentState,
@@ -60,13 +70,13 @@ export class Plataforma {
   payment_vendedor_state: string;
 
   @Column({ nullable: true })
+  fecha_pagada_vendedor: Date;
+
+  @Column({ nullable: true })
   fecha_compra: Date;
 
   @Column({ nullable: true })
   fecha_vencimiento: Date;
-
-  @Column({ nullable: true })
-  fecha_pagada: Date;
 
   @Column({ nullable: true })
   vigencia: number;

@@ -4,7 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -23,7 +23,7 @@ export class TipoPlataforma {
   @Column({ nullable: true })
   image: string;
 
-  @ManyToMany(() => Plataforma)
+  @OneToMany(() => Plataforma, (plataforma) => plataforma.tipo_plataforma)
   plataformas: Plataforma[];
 
   @CreateDateColumn()
