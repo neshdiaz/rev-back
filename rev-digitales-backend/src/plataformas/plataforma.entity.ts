@@ -6,11 +6,14 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Traslado } from 'src/traslados/traslado.entity';
 
 export enum plataformaState {
   ADQUIRIDA = 'adquirida',
@@ -109,6 +112,9 @@ export class Plataforma {
 
   @ManyToMany(() => Compra, (compra) => compra.plataformas)
   compras: Compra[];
+
+  @OneToMany(() => Traslado, (traslado) => traslado.plataforma)
+  traslados: Traslado[];
 
   @CreateDateColumn()
   created: Date;
