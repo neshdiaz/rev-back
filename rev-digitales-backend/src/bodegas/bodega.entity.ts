@@ -1,6 +1,5 @@
 import { Plataforma } from 'src/plataformas/plataforma.entity';
 import { Usuario } from 'src/usuarios/usuario.entity';
-//import { Usuario } from 'src/usuarios/usuario.entity';
 
 import {
   Column,
@@ -20,14 +19,17 @@ export class Bodega {
   @Column()
   nombre: string;
 
-  @ManyToMany(() => Usuario, (usuario) => usuario.responsable_bodegas)
-  responsables: Usuario[];
+  @Column({ nullable: true })
+  descripcion: string;
 
   @Column({ default: false })
   isPrincipal: boolean;
 
   @Column({ default: true })
   isActive: boolean;
+
+  @ManyToMany(() => Usuario, (usuario) => usuario.responsable_bodegas)
+  responsables: Usuario[];
 
   @OneToMany(() => Plataforma, (plataforma) => plataforma.bodega_actual)
   plataformas: Plataforma[];

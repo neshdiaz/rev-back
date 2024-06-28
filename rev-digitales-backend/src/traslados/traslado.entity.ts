@@ -18,6 +18,15 @@ export class Traslado {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ nullable: true })
+  fecha_traslado: Date;
+
+  @OneToOne(() => Usuario)
+  responsable: Usuario;
+
+  @Column({ nullable: true })
+  notes: string;
+
   @ManyToOne(() => Plataforma, (plataforma) => plataforma.traslados)
   plataforma: Plataforma;
 
@@ -28,15 +37,6 @@ export class Traslado {
   @OneToOne(() => Bodega)
   @JoinColumn()
   bodega_destino: Bodega;
-
-  @Column({ nullable: true })
-  fecha_traslado: Date;
-
-  @OneToOne(() => Usuario)
-  responsable: Usuario;
-
-  @Column({ nullable: true })
-  notes: string;
 
   @CreateDateColumn()
   created: Date;

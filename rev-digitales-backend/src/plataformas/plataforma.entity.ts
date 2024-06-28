@@ -35,12 +35,6 @@ export class Plataforma {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(
-    () => TipoPlataforma,
-    (tipo_plataforma) => tipo_plataforma.plataformas,
-  )
-  tipo_plataforma: TipoPlataforma;
-
   @Column()
   correo: string;
 
@@ -95,10 +89,6 @@ export class Plataforma {
   @Column()
   bodega_id: number;
 
-  @ManyToOne(() => Bodega, (bodega) => bodega.plataformas)
-  @JoinColumn()
-  bodega_actual: Bodega;
-
   @Column({
     nullable: true,
     type: 'enum',
@@ -108,6 +98,16 @@ export class Plataforma {
 
   @Column({ nullable: true })
   notes: string;
+
+  @ManyToOne(
+    () => TipoPlataforma,
+    (tipo_plataforma) => tipo_plataforma.plataformas,
+  )
+  tipo_plataforma: TipoPlataforma;
+
+  @ManyToOne(() => Bodega, (bodega) => bodega.plataformas)
+  @JoinColumn()
+  bodega_actual: Bodega;
 
   @ManyToMany(() => Compra, (compra) => compra.plataformas)
   compras: Compra[];
