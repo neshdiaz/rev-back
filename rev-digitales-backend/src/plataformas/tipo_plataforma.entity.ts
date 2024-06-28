@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'tipo_plataformas' })
 export class TipoPlataforma {
   @PrimaryGeneratedColumn()
   id: number;

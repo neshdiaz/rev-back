@@ -13,7 +13,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'compras' })
 export class Compra {
   @PrimaryGeneratedColumn()
   id: number;

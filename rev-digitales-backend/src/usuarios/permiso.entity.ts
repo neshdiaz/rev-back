@@ -8,7 +8,7 @@ import {
   ManyToMany,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'permisos' })
 export class Permiso {
   @PrimaryGeneratedColumn()
   id: number;

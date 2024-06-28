@@ -30,7 +30,7 @@ export enum grupo {
   REDLATAM = 'red_latam',
   REVENTAS = 'reventas',
 }
-@Entity()
+@Entity({ name: 'plataformas' })
 export class Plataforma {
   @PrimaryGeneratedColumn()
   id: number;
