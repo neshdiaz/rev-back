@@ -1,4 +1,5 @@
 import { Bodega } from 'src/bodegas/bodega.entity';
+import { Permiso } from './permiso.entity';
 
 import {
   Column,
@@ -34,9 +35,6 @@ export class Usuario {
   @Column()
   password: string;
 
-  @Column()
-  email: string;
-
   @Column({
     type: 'enum',
     enum: UserRol,
@@ -50,6 +48,10 @@ export class Usuario {
   @ManyToMany(() => Bodega, (bodega) => bodega.responsables)
   @JoinTable()
   responsable_bodegas: Bodega[];
+
+  @ManyToMany(() => Permiso, (permiso) => permiso.usuarios)
+  @JoinTable()
+  permisos: Permiso[];
 
   @CreateDateColumn()
   created: Date;
