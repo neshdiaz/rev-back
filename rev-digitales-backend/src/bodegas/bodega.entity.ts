@@ -16,7 +16,7 @@ export class Bodega {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   nombre: string;
 
   @Column({ nullable: true })
