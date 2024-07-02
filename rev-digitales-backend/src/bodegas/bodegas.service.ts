@@ -12,14 +12,14 @@ export class BodegasService {
   ) {}
 
   async createBodega(Bodega: CreateBodegaDto) {
-    const bodegaFound = await this.bodegaRepository.find({
+    const bodegaFound = await this.bodegaRepository.findOne({
       where: {
         nombre: Bodega.nombre,
       },
     });
 
     if (bodegaFound) {
-      return new HttpException(
+      throw new HttpException(
         'Este nombre ya existe, intente con otro para evitar confusiones',
         HttpStatus.CONFLICT,
       );
@@ -41,7 +41,7 @@ export class BodegasService {
     });
 
     if (!bodegaFound) {
-      return new HttpException(
+      throw new HttpException(
         'Este id de bodega no existe',
         HttpStatus.NOT_FOUND,
       );
@@ -53,7 +53,7 @@ export class BodegasService {
     const result = await this.bodegaRepository.delete(id);
 
     if (result.affected === 0) {
-      return new HttpException('El elemento no existe', HttpStatus.NOT_FOUND);
+      throw new HttpException('El elemento no existe', HttpStatus.NOT_FOUND);
     }
     return result;
   }
@@ -66,7 +66,7 @@ export class BodegasService {
     });
 
     if (!bodegaFound) {
-      return new HttpException(
+      throw new HttpException(
         'Este id de bodega no existe',
         HttpStatus.NOT_FOUND,
       );

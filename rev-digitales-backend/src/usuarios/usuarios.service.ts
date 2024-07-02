@@ -19,7 +19,7 @@ export class UsuariosService {
     });
 
     if (userFound) {
-      return new HttpException(
+      throw new HttpException(
         'Este nombre de usuario ya existe',
         HttpStatus.CONFLICT,
       );
@@ -41,7 +41,7 @@ export class UsuariosService {
     });
 
     if (!userFound) {
-      return new HttpException(
+      throw new HttpException(
         'Este id de usuario no existe',
         HttpStatus.NOT_FOUND,
       );
@@ -53,7 +53,7 @@ export class UsuariosService {
     const result = await this.usuarioRepository.delete(id);
 
     if (result.affected === 0) {
-      return new HttpException('El elemento no existe', HttpStatus.NOT_FOUND);
+      throw new HttpException('El elemento no existe', HttpStatus.NOT_FOUND);
     }
     return result;
   }
@@ -66,7 +66,7 @@ export class UsuariosService {
     });
 
     if (!userFound) {
-      return new HttpException(
+      throw new HttpException(
         'Este id de usuario no existe',
         HttpStatus.NOT_FOUND,
       );
