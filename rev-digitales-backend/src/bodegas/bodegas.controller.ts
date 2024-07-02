@@ -20,4 +20,27 @@ export class BodegasController {
   createBodega(@Body() newBodega: CreateBodegaDto) {
     return this.bodegasService.createBodega(newBodega);
   }
+
+  @Get()
+  getBodegas() {
+    return this.bodegasService.getBodegas();
+  }
+
+  @Get(':id')
+  getBodega(@Param('id', ParseIntPipe) id: number) {
+    return this.bodegasService.getBodega(id);
+  }
+
+  @Delete(':id')
+  deleteBodega(@Param('id', ParseIntPipe) id: number) {
+    return this.bodegasService.deleteBodega(id);
+  }
+
+  @Patch(':id')
+  updateBodega(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() bodega: UpdateBodegaDto,
+  ) {
+    return this.bodegasService.updateBodega(id, bodega);
+  }
 }

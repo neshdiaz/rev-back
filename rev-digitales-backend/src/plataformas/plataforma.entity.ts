@@ -86,9 +86,6 @@ export class Plataforma {
   @Column({ nullable: true })
   image: string;
 
-  @Column()
-  bodega_id: number;
-
   @Column({
     nullable: true,
     type: 'enum',

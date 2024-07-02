@@ -46,7 +46,6 @@ export class UsuariosService {
         HttpStatus.NOT_FOUND,
       );
     }
-
     return userFound;
   }
 
@@ -56,7 +55,6 @@ export class UsuariosService {
     if (result.affected === 0) {
       return new HttpException('El elemento no existe', HttpStatus.NOT_FOUND);
     }
-
     return result;
   }
 
@@ -73,7 +71,6 @@ export class UsuariosService {
         HttpStatus.NOT_FOUND,
       );
     }
-
     return this.usuarioRepository.update(id, Usuario);
   }
 }
