@@ -11,6 +11,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { BodegasService } from './bodegas.service';
+import { assignResponsableDto } from './dto/assign-responsable.dto';
 
 @Controller('bodegas')
 export class BodegasController {
@@ -42,5 +43,13 @@ export class BodegasController {
     @Body() bodega: UpdateBodegaDto,
   ) {
     return this.bodegasService.updateBodega(id, bodega);
+  }
+
+  @Patch('assign_responsable/:id')
+  assignResponsableBodega(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() responsables: assignResponsableDto,
+  ) {
+    return this.bodegasService.assignResponsable(id, responsables);
   }
 }
