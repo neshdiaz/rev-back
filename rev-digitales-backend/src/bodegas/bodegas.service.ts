@@ -7,7 +7,6 @@ import { CreateBodegaDto } from './dto/create-bodega.dto';
 import { UpdateBodegaDto } from './dto/update-bodega.dto';
 import { assignResponsableDto } from './dto/assign-responsable.dto';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { IsNumber } from 'class-validator';
 @Injectable()
 export class BodegasService {
   constructor(
@@ -81,7 +80,10 @@ export class BodegasService {
     return this.bodegaRepository.update(id, Bodega);
   }
 
-  async assignResponsable(idBodega: number, idResponsable: assignResponsableDto) {
+  async assignResponsable(
+    idBodega: number,
+    idResponsable: assignResponsableDto,
+  ) {
     const bodegaFound = await this.bodegaRepository.findOne({
       where: {
         id: idBodega,
@@ -96,8 +98,11 @@ export class BodegasService {
       );
     }
 
-    if (typeof idResponsable.responsables != 'number'){
-      throw new HttpException('el formato del id del responsable no es valido', HttpStatus.BAD_REQUEST);
+    if (typeof idResponsable.responsables != 'number') {
+      throw new HttpException(
+        'el formato del id del responsable no es valido',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
     const responsableFound = await this.usuarioRepository.findOne({
@@ -113,11 +118,10 @@ export class BodegasService {
       );
     }
 
-    const listResponsables = bodegaFound.responsables
-    listResponsables.push(responsableFound)
+    const listResponsables = bodegaFound.responsables;
+    listResponsables.push(responsableFound);
     bodegaFound.responsables = listResponsables;
 
-    return this.bodegaRepository.save(bodegaFound)
+    return this.bodegaRepository.save(bodegaFound);
   }
 }
-
