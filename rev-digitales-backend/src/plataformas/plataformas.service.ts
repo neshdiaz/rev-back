@@ -21,12 +21,12 @@ export class PlataformasService {
     private plataformaRepository: Repository<Plataforma>,
   ) {}
 
-  async CreatePlataforma(plataforma: CreatePlataformaDto) {
+  async createPlataforma(plataforma: CreatePlataformaDto) {
     const newPlataforma = this.plataformaRepository.create(plataforma);
     return this.plataformaRepository.save(newPlataforma);
   }
 
-  async CreateTipoPlataforma(tipoPlataforma: CreateTipoPlataformaDto) {
+  async createTipoPlataforma(tipoPlataforma: CreateTipoPlataformaDto) {
     const newTipoPlataforma =
       this.tipoPlataformaRepository.create(tipoPlataforma);
     return this.tipoPlataformaRepository.save(newTipoPlataforma);
