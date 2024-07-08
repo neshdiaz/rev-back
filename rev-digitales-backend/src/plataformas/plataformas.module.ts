@@ -6,10 +6,17 @@ import { Bodega } from 'src/bodegas/bodega.entity';
 import { Compra } from 'src/compras/compra.entity';
 import { Traslado } from 'src/traslados/traslado.entity';
 import { TipoPlataforma } from './tipo_plataforma.entity';
+import { Plataforma } from './plataforma.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Bodega, Compra, Traslado, TipoPlataforma]),
+    TypeOrmModule.forFeature([
+      Plataforma,
+      Bodega,
+      Compra,
+      Traslado,
+      TipoPlataforma,
+    ]),
   ],
 
   controllers: [PlataformasController],
