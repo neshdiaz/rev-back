@@ -20,7 +20,7 @@ export class Proveedor {
   @Column()
   apellidos: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, unique: true })
   email: string;
 
   @Column({ nullable: true })
