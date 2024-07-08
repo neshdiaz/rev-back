@@ -21,14 +21,14 @@ export class PlataformasService {
     private plataformaRepository: Repository<Plataforma>,
   ) {}
 
-  async CreatePlataforma(Plataforma: CreatePlataformaDto) {
-    const newPlataforma = this.plataformaRepository.create(Plataforma);
+  async CreatePlataforma(plataforma: CreatePlataformaDto) {
+    const newPlataforma = this.plataformaRepository.create(plataforma);
     return this.plataformaRepository.save(newPlataforma);
   }
 
-  async CreateTipoPlataforma(TipoPlataforma: CreateTipoPlataformaDto) {
+  async CreateTipoPlataforma(tipoPlataforma: CreateTipoPlataformaDto) {
     const newTipoPlataforma =
-      this.tipoPlataformaRepository.create(TipoPlataforma);
+      this.tipoPlataformaRepository.create(tipoPlataforma);
     return this.tipoPlataformaRepository.save(newTipoPlataforma);
   }
 
@@ -90,7 +90,7 @@ export class PlataformasService {
     return result;
   }
 
-  async updatePlataforma(id: number, Plataforma: UpdatePlataformaDto) {
+  async updatePlataforma(id: number, plataforma: UpdatePlataformaDto) {
     const plataformaFound = await this.plataformaRepository.findOne({
       where: {
         id,
@@ -103,12 +103,12 @@ export class PlataformasService {
         HttpStatus.NOT_FOUND,
       );
     }
-    return this.plataformaRepository.update(id, Plataforma);
+    return this.plataformaRepository.update(id, plataforma);
   }
 
   async updateTipoPlataforma(
     id: number,
-    TipoPlataforma: UpdateTipoPlataformaDto,
+    tipoPlataforma: UpdateTipoPlataformaDto,
   ) {
     const tipoPlataformaFound = await this.tipoPlataformaRepository.findOne({
       where: {
@@ -122,6 +122,6 @@ export class PlataformasService {
         HttpStatus.NOT_FOUND,
       );
     }
-    return this.tipoPlataformaRepository.update(id, TipoPlataforma);
+    return this.tipoPlataformaRepository.update(id, tipoPlataforma);
   }
 }
