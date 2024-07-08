@@ -1,6 +1,6 @@
 export class CreateBodegaDto {
   nombre: string;
   descripcion: string;
-  isPrincipal: boolean;
-  isActive: boolean;
+  isPrincipal?: boolean;
+  isActive?: boolean;
 }
