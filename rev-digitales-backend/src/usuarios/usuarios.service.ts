@@ -11,10 +11,10 @@ export class UsuariosService {
     @InjectRepository(Usuario) private usuarioRepository: Repository<Usuario>,
   ) {}
 
-  async createUsuario(Usuario: CreateUsuarioDto) {
+  async createUsuario(usuario: CreateUsuarioDto) {
     const userFound = await this.usuarioRepository.findOne({
       where: {
-        username: Usuario.username,
+        username: usuario.username,
       },
     });
 
@@ -25,7 +25,7 @@ export class UsuariosService {
       );
     }
 
-    const newUsuario = this.usuarioRepository.create(Usuario);
+    const newUsuario = this.usuarioRepository.create(usuario);
     return this.usuarioRepository.save(newUsuario);
   }
 
@@ -58,7 +58,7 @@ export class UsuariosService {
     return result;
   }
 
-  async updateUsuario(id: number, Usuario: UpdateUsuarioDto) {
+  async updateUsuario(id: number, usuario: UpdateUsuarioDto) {
     const userFound = await this.usuarioRepository.findOne({
       where: {
         id,
@@ -71,6 +71,6 @@ export class UsuariosService {
         HttpStatus.NOT_FOUND,
       );
     }
-    return this.usuarioRepository.update(id, Usuario);
+    return this.usuarioRepository.update(id, usuario);
   }
 }
