@@ -64,7 +64,7 @@ export class BodegasService {
     return result;
   }
 
-  async updateBodega(id: number, Bodega: UpdateBodegaDto) {
+  async updateBodega(id: number, bodega: UpdateBodegaDto) {
     const bodegaFound = await this.bodegaRepository.findOne({
       where: {
         id,
@@ -77,7 +77,7 @@ export class BodegasService {
         HttpStatus.NOT_FOUND,
       );
     }
-    return this.bodegaRepository.update(id, Bodega);
+    return this.bodegaRepository.update(id, bodega);
   }
 
   async assignResponsable(
