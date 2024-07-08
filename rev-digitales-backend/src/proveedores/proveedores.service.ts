@@ -12,10 +12,10 @@ export class ProveedoresService {
     private proveedorRepository: Repository<Proveedor>,
   ) {}
 
-  async createProveedor(Proveedor: CreateProveedorDto) {
+  async createProveedor(proveedor: CreateProveedorDto) {
     const proveedorFound = await this.proveedorRepository.findOne({
       where: {
-        email: Proveedor.email,
+        email: proveedor.email,
       },
     });
 
@@ -25,7 +25,7 @@ export class ProveedoresService {
         HttpStatus.FOUND,
       );
     }
-    const newProveedor = this.proveedorRepository.create(Proveedor);
+    const newProveedor = this.proveedorRepository.create(proveedor);
     return this.proveedorRepository.save(newProveedor);
   }
 
@@ -58,7 +58,7 @@ export class ProveedoresService {
     return result;
   }
 
-  async updateProveedor(id: number, Proveedor: UpdateProveedorDto) {
+  async updateProveedor(id: number, proveedor: UpdateProveedorDto) {
     const proveedorFound = await this.proveedorRepository.findOne({
       where: {
         id,
@@ -71,6 +71,6 @@ export class ProveedoresService {
         HttpStatus.NOT_FOUND,
       );
     }
-    return this.proveedorRepository.update(id, Proveedor);
+    return this.proveedorRepository.update(id, proveedor);
   }
 }
