@@ -39,7 +39,7 @@ export class Plataforma {
   correo: string;
 
   @Column()
-  contraseña: string;
+  contrasena: string;
 
   @Column({
     type: 'enum',

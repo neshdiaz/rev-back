@@ -27,6 +27,18 @@ export class PlataformasService {
   }
 
   async createTipoPlataforma(tipoPlataforma: CreateTipoPlataformaDto) {
+    const tPlataformaFound = await this.tipoPlataformaRepository.findOne({
+      where: {
+        nombre: tipoPlataforma.nombre,
+      },
+    });
+
+    if (tPlataformaFound) {
+      throw new HttpException(
+        'Este nombre para tipo de plataforma ya existe',
+        HttpStatus.CONFLICT,
+      );
+    }
     const newTipoPlataforma =
       this.tipoPlataformaRepository.create(tipoPlataforma);
     return this.tipoPlataformaRepository.save(newTipoPlataforma);

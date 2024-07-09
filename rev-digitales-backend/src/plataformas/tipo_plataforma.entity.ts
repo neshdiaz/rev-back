@@ -14,7 +14,7 @@ export class TipoPlataforma {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   nombre: string;
 
   @Column()

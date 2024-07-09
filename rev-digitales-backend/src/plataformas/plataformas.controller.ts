@@ -33,7 +33,7 @@ export class PlataformasController {
     return this.plataformasService.getPlataformas();
   }
 
-  @Get()
+  @Get('/tipo-plataforma/')
   getTiposPlataformas() {
     return this.plataformasService.getTiposPlataformas();
   }
@@ -71,6 +71,6 @@ export class PlataformasController {
     @Param('id', ParseIntPipe) id: number,
     @Body() tipoPlataforma: UpdateTipoPlataformaDto,
   ) {
-    return this.plataformasService.updatePlataforma(id, tipoPlataforma);
+    return this.plataformasService.updateTipoPlataforma(id, tipoPlataforma);
   }
 }

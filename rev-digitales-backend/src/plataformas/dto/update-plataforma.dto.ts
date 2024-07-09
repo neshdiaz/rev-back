@@ -1,5 +1,5 @@
 export class UpdatePlataformaDto {
-  nombre?: string;
-  descripcion?: string;
-  image?: string;
+  correo?: string;
+  contrasena?: string;
+  vigencia?: number;
 }

@@ -1,5 +1,6 @@
 export class CreatePlataformaDto {
   correo: string;
-  contraseña: string;
+  contrasena: string;
+  costo_unitario_compra: number;
   vigencia: number;
 }
