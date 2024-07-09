@@ -45,7 +45,7 @@ export class PlataformasService {
   }
 
   getPlataformas(): Promise<Plataforma[]> {
-    return this.plataformaRepository.find();
+    return this.plataformaRepository.find({ relations: ['tipo_plataforma'] });
   }
 
   getTiposPlataformas(): Promise<TipoPlataforma[]> {
