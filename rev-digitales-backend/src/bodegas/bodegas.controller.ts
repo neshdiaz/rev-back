@@ -1,5 +1,7 @@
 import { CreateBodegaDto } from './dto/create-bodega.dto';
 import { UpdateBodegaDto } from './dto/update-bodega.dto';
+import { assignPlataformaDto } from './dto/assign-plataforma.dto';
+
 import {
   Controller,
   Post,
@@ -51,5 +53,13 @@ export class BodegasController {
     @Body() responsables: assignResponsableDto,
   ) {
     return this.bodegasService.assignResponsable(id, responsables);
+  }
+
+  @Patch('assign_plataforma/:id')
+  assignPlataformaBodega(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() plataformas: assignPlataformaDto,
+  ) {
+    return this.bodegasService.assignPlataforma(id, plataformas);
   }
 }
