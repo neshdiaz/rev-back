@@ -73,6 +73,7 @@ export class PlataformasService {
       where: {
         id,
       },
+      relations: ['plataformas'],
     });
 
     if (!tipoPlataformaFound) {
