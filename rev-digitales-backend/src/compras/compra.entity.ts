@@ -18,11 +18,11 @@ export class Compra {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @CreateDateColumn()
   fecha: Date;
 
   @Column()
-  proveedor_id: number;
+  notes: string;
 
   @ManyToOne(() => Proveedor, (proveedor) => proveedor.compras)
   @JoinColumn()
