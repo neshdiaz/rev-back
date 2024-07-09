@@ -1,10 +1,12 @@
 import { Usuario } from './../usuarios/usuario.entity';
+import { Plataforma } from 'src/plataformas/plataforma.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Bodega } from './bodega.entity';
 import { CreateBodegaDto } from './dto/create-bodega.dto';
 import { UpdateBodegaDto } from './dto/update-bodega.dto';
+import { assignPlataformaDto } from './dto/assign-plataforma.dto';
 import { assignResponsableDto } from './dto/assign-responsable.dto';
 import { HttpException, HttpStatus } from '@nestjs/common';
 @Injectable()
@@ -12,6 +14,8 @@ export class BodegasService {
   constructor(
     @InjectRepository(Bodega) private bodegaRepository: Repository<Bodega>,
     @InjectRepository(Usuario) private usuarioRepository: Repository<Usuario>,
+    @InjectRepository(Plataforma)
+    private plataformaRepository: Repository<Plataforma>,
   ) {}
 
   async createBodega(bodega: CreateBodegaDto) {
@@ -121,6 +125,48 @@ export class BodegasService {
     const listResponsables = bodegaFound.responsables;
     listResponsables.push(responsableFound);
     bodegaFound.responsables = listResponsables;
+
+    return this.bodegaRepository.save(bodegaFound);
+  }
+
+  async assignPlataforma(idBodega: number, idPlataforma: assignPlataformaDto) {
+    const bodegaFound = await this.bodegaRepository.findOne({
+      where: {
+        id: idBodega,
+      },
+      relations: ['responsables', 'plataformas'],
+    });
+
+    if (!bodegaFound) {
+      throw new HttpException(
+        'Este id de bodega no existe',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    if (typeof idPlataforma.plataformas != 'number') {
+      throw new HttpException(
+        'el formato del id de la plataforma no es valido',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const plataformaFound = await this.plataformaRepository.findOne({
+      where: {
+        id: idPlataforma.plataformas,
+      },
+    });
+
+    if (!plataformaFound) {
+      throw new HttpException(
+        'Este id de plataforma no existe',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const listPlataformas = bodegaFound.plataformas;
+    listPlataformas.push(plataformaFound);
+    bodegaFound.plataformas = listPlataformas;
 
     return this.bodegaRepository.save(bodegaFound);
   }
