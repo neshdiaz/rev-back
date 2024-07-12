@@ -5,12 +5,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCompraDto } from './dto/create-compra.dto';
 import { UpdateCompraDto } from './dto/update-compra.dto';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { AssignProveedorCompraDto } from './dto/assign-proveedor-compra.dto';
+import { Proveedor } from 'src/proveedores/proveedor.entity';
 
 @Injectable()
 export class ComprasService {
   constructor(
     @InjectRepository(Compra) private compraRepository: Repository<Compra>,
+    @InjectRepository(Proveedor)
+    private proveedorRepository: Repository<Proveedor>,
   ) {}
+
   async createCompra(compra: CreateCompraDto) {
     const newCompra = this.compraRepository.create(compra);
     return this.compraRepository.save(newCompra);
@@ -22,6 +27,7 @@ export class ComprasService {
 
   async getCompra(id: number) {
     const compraFound = await this.compraRepository.findOne({
+      relations: ['proveedor'],
       where: {
         id,
       },
@@ -59,5 +65,37 @@ export class ComprasService {
       );
     }
     return this.compraRepository.update(id, compra);
+  }
+
+  async assingProveedorCompra(id: number, proveedor: AssignProveedorCompraDto) {
+    const compraFound = await this.compraRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!compraFound) {
+      throw new HttpException(
+        'Este id de compra no existe',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const proveedorFound = await this.proveedorRepository.findOne({
+      where: {
+        id: proveedor.proveedor,
+      },
+    });
+
+    if (!proveedorFound) {
+      throw new HttpException(
+        'Este id de proveedor no existe',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    compraFound.proveedor = proveedorFound;
+
+    return this.compraRepository.update(id, compraFound);
   }
 }
