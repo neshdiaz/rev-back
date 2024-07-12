@@ -1,3 +1,6 @@
+import { AssignPlataformaCompraDto } from './dto/assign-plataforma-compra.dto';
+import { AssignProveedorCompraDto } from './dto/assign-proveedor-compra.dto';
+
 import { CreateCompraDto } from './dto/create-compra.dto';
 import { UpdateCompraDto } from './dto/update-compra.dto';
 import {
@@ -11,6 +14,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { ComprasService } from './compras.service';
+
 @Controller('compras')
 export class ComprasController {
   constructor(private comprasService: ComprasService) {}
@@ -41,5 +45,21 @@ export class ComprasController {
     @Body() compra: UpdateCompraDto,
   ) {
     return this.comprasService.updateCompra(id, compra);
+  }
+
+  @Patch('/assign-proveedor-compra/:id')
+  AssignProveedorCompra(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() proveedor: AssignProveedorCompraDto,
+  ) {
+    return this.comprasService.assignProveedorCompra(id, proveedor);
+  }
+
+  @Patch('/assign-plataforma-compra/:id')
+  AssignPlataformaCompra(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() plataforma: AssignPlataformaCompraDto,
+  ) {
+    return this.comprasService.assignPlataformaCompra(id, plataforma);
   }
 }

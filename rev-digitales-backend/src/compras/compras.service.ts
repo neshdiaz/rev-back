@@ -6,12 +6,16 @@ import { CreateCompraDto } from './dto/create-compra.dto';
 import { UpdateCompraDto } from './dto/update-compra.dto';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { AssignProveedorCompraDto } from './dto/assign-proveedor-compra.dto';
+import { AssignPlataformaCompraDto } from './dto/assign-plataforma-compra.dto';
 import { Proveedor } from 'src/proveedores/proveedor.entity';
+import { Plataforma } from 'src/plataformas/plataforma.entity';
 
 @Injectable()
 export class ComprasService {
   constructor(
     @InjectRepository(Compra) private compraRepository: Repository<Compra>,
+    @InjectRepository(Plataforma)
+    private plataformaRepository: Repository<Plataforma>,
     @InjectRepository(Proveedor)
     private proveedorRepository: Repository<Proveedor>,
   ) {}
@@ -67,7 +71,7 @@ export class ComprasService {
     return this.compraRepository.update(id, compra);
   }
 
-  async assingProveedorCompra(id: number, proveedor: AssignProveedorCompraDto) {
+  async assignProveedorCompra(id: number, proveedor: AssignProveedorCompraDto) {
     const compraFound = await this.compraRepository.findOne({
       where: {
         id,
@@ -95,6 +99,41 @@ export class ComprasService {
     }
 
     compraFound.proveedor = proveedorFound;
+
+    return this.compraRepository.update(id, compraFound);
+  }
+
+  async assignPlataformaCompra(
+    id: number,
+    plataforma: AssignPlataformaCompraDto,
+  ) {
+    const compraFound = await this.compraRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!compraFound) {
+      throw new HttpException(
+        'Este id de compra no existe',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const plataformaFound = await this.plataformaRepository.findOne({
+      where: {
+        id: plataforma.plataformas[0],
+      },
+    });
+
+    if (!plataformaFound) {
+      throw new HttpException(
+        'Este id de proveedor no existe',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    compraFound.plataformas[0] = plataformaFound;
 
     return this.compraRepository.update(id, compraFound);
   }
