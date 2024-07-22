@@ -1,5 +1,13 @@
+import { IsString, IsOptional } from 'class-validator';
+
 export class UpdateTipoPlataformaDto {
-  nombre?: string;
-  descripcion?: string;
+  @IsString()
+  nombre: string;
+
+  @IsString()
+  descripcion: string;
+
+  @IsOptional()
+  @IsString()
   image?: string;
 }
