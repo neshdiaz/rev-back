@@ -21,7 +21,7 @@ export class Compra {
   @CreateDateColumn()
   fecha: Date;
 
-  @Column()
+  @Column({ default: '' })
   notes: string;
 
   @ManyToOne(() => Proveedor, (proveedor) => proveedor.compras)

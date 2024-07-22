@@ -29,13 +29,14 @@ export enum grupo {
   LATAM = 'latam',
   REDLATAM = 'red_latam',
   REVENTAS = 'reventas',
+  NA = 'n/a',
 }
 @Entity({ name: 'plataformas' })
 export class Plataforma {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   correo: string;
 
   @Column()
@@ -68,7 +69,7 @@ export class Plataforma {
   @Column({ nullable: true })
   fecha_pagada_vendedor: Date;
 
-  @Column({ nullable: true })
+  @CreateDateColumn()
   fecha_compra: Date;
 
   @Column({ nullable: true })
@@ -90,6 +91,7 @@ export class Plataforma {
     nullable: true,
     type: 'enum',
     enum: grupo,
+    default: grupo.NA,
   })
   grupo: string;
 

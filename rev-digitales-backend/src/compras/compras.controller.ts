@@ -14,6 +14,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { ComprasService } from './compras.service';
+import { CreateCompraWithPlataformasDto } from './dto/create-compra-with-plataformas.dto';
 
 @Controller('compras')
 export class ComprasController {
@@ -22,6 +23,13 @@ export class ComprasController {
   @Post()
   createCompra(@Body() newCompra: CreateCompraDto) {
     return this.comprasService.createCompra(newCompra);
+  }
+
+  @Post('/create-compra-with-plataformas/')
+  createCompraWithPlataformas(
+    @Body() newCompra: CreateCompraWithPlataformasDto,
+  ) {
+    return this.comprasService.createCompraWithPlataformas(newCompra);
   }
 
   @Get()

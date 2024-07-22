@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Body, Injectable } from '@nestjs/common';
 import { Compra } from './compra.entity';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCompraDto } from './dto/create-compra.dto';
 import { UpdateCompraDto } from './dto/update-compra.dto';
@@ -9,6 +9,7 @@ import { AssignProveedorCompraDto } from './dto/assign-proveedor-compra.dto';
 import { AssignPlataformaCompraDto } from './dto/assign-plataforma-compra.dto';
 import { Proveedor } from 'src/proveedores/proveedor.entity';
 import { Plataforma } from 'src/plataformas/plataforma.entity';
+import { CreateCompraWithPlataformasDto } from './dto/create-compra-with-plataformas.dto';
 
 @Injectable()
 export class ComprasService {
@@ -25,8 +26,45 @@ export class ComprasService {
     return this.compraRepository.save(newCompra);
   }
 
+  async createCompraWithPlataformas(
+    @Body() compra: CreateCompraWithPlataformasDto,
+  ) {
+    // Validate if Proveedor exists
+    const proveedor = await this.proveedorRepository.findOne({
+      where: {
+        id: compra.proveedor,
+      },
+    });
+
+    // If Proveedor doesnt exists throw error
+    if (!proveedor) {
+      throw new HttpException(
+        'Este id de proveedor no existe, debe ser creado primero.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    // Create a new compra and assign proveedor and plataformas.
+    const newCompra = this.compraRepository.create();
+    newCompra.proveedor = proveedor;
+
+    // For each plataforma in the list save in the db and new array
+    const arrPlataformas = [];
+    for (const plat of compra.plataformas) {
+      await this.plataformaRepository.save(plat);
+      arrPlataformas.push(plat);
+    }
+
+    // Save the list of plataformas in the compra
+    // and save all the object newCompra and return
+    newCompra.plataformas = arrPlataformas;
+    return this.compraRepository.save(newCompra);
+  }
+
   getCompras(): Promise<Compra[]> {
-    return this.compraRepository.find();
+    return this.compraRepository.find({
+      relations: ['proveedor', 'plataformas'],
+    });
   }
 
   async getCompra(id: number) {
@@ -103,16 +141,23 @@ export class ComprasService {
     return this.compraRepository.update(id, compraFound);
   }
 
+  //Validar posiblemente no se utilice
   async assignPlataformaCompra(
     id: number,
     plataforma: AssignPlataformaCompraDto,
   ) {
+    /**
+     * looking for compra in DB
+     */
     const compraFound = await this.compraRepository.findOne({
       where: {
-        id,
+        id: id,
       },
     });
 
+    /**
+     * check if the compra id is valid
+     */
     if (!compraFound) {
       throw new HttpException(
         'Este id de compra no existe',
@@ -120,21 +165,30 @@ export class ComprasService {
       );
     }
 
-    const plataformaFound = await this.plataformaRepository.findOne({
+    /**
+     * check if all ids are valid in the DB
+     **/
+    const plataformasFound = await this.plataformaRepository.find({
       where: {
-        id: plataforma.plataformas[0],
+        id: In(plataforma.plataformas),
       },
     });
 
-    if (!plataformaFound) {
+    /**
+     * check if everything was found
+     **/
+    if (plataformasFound.length !== plataforma.plataformas.length) {
       throw new HttpException(
-        'Este id de proveedor no existe',
+        'No se encontraron todos los ids de plataformas, por favor verifique.',
         HttpStatus.NOT_FOUND,
       );
     }
+    console.log('Transformada en array');
+    console.log(Object.entries(plataformasFound));
+    console.log('Objetos de BD Original');
+    console.log(compraFound);
+    compraFound[0].plataformas = plataformasFound;
 
-    compraFound.plataformas[0] = plataformaFound;
-
-    return this.compraRepository.update(id, compraFound);
+    //return this.compraRepository.update(id, compraFound);
   }
 }
