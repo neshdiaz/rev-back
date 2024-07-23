@@ -63,7 +63,7 @@ export class ComprasService {
 
   getCompras(): Promise<Compra[]> {
     return this.compraRepository.find({
-      relations: ['proveedor', 'plataformas'],
+      relations: ['proveedor', 'plataformas', 'plataformas.tipo_plataforma'],
     });
   }
 
