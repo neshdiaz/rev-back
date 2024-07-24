@@ -10,6 +10,7 @@ import { AssignPlataformaCompraDto } from './dto/assign-plataforma-compra.dto';
 import { Proveedor } from 'src/proveedores/proveedor.entity';
 import { Plataforma } from 'src/plataformas/plataforma.entity';
 import { CreateCompraWithPlataformasDto } from './dto/create-compra-with-plataformas.dto';
+import { Bodega } from 'src/bodegas/bodega.entity';
 
 @Injectable()
 export class ComprasService {
@@ -19,6 +20,8 @@ export class ComprasService {
     private plataformaRepository: Repository<Plataforma>,
     @InjectRepository(Proveedor)
     private proveedorRepository: Repository<Proveedor>,
+    @InjectRepository(Bodega)
+    private bodegaRepository: Repository<Bodega>,
   ) {}
 
   async createCompra(compra: CreateCompraDto) {
@@ -44,6 +47,22 @@ export class ComprasService {
       );
     }
 
+    // getting bodega object
+    const belongsBodega = await this.bodegaRepository.findOne({
+      where: {
+        id: compra.bodega_actual,
+        nombre: 'Principal',
+      },
+    });
+
+    //Validating if Bodega id exists or throw error
+    if (!belongsBodega) {
+      throw new HttpException(
+        'La bodega principal no ha sido creada, contacte con el administrador',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
     // Create a new compra and assign proveedor and plataformas.
     const newCompra = this.compraRepository.create();
     newCompra.proveedor = proveedor;
@@ -51,6 +70,7 @@ export class ComprasService {
     // For each plataforma in the list save in the db and new array
     const arrPlataformas = [];
     for (const plat of compra.plataformas) {
+      //plat.bodega_actual = belongsBodega.id;
       await this.plataformaRepository.save(plat);
       arrPlataformas.push(plat);
     }
