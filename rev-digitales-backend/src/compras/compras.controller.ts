@@ -64,10 +64,10 @@ export class ComprasController {
   }
 
   @Patch('/assign-plataforma-compra/:id')
-  AssignPlataformaCompra(
+  AssignPlataformasCompra(
     @Param('id', ParseIntPipe) id: number,
     @Body() plataforma: AssignPlataformaCompraDto,
   ) {
-    return this.comprasService.assignPlataformaCompra(id, plataforma);
+    return this.comprasService.assignPlataformasCompra(id, plataforma);
   }
 }

@@ -166,9 +166,9 @@ export class ComprasService {
     id: number,
     plataforma: AssignPlataformaCompraDto,
   ) {
-    /**
-     * looking for compra in DB
-     */
+    //
+    // looking for compra in DB
+    //
     const compraFound = await this.compraRepository.findOne({
       where: {
         id: id,
