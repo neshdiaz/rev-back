@@ -50,7 +50,7 @@ export class ComprasService {
     // getting bodega object
     const belongsBodega = await this.bodegaRepository.findOne({
       where: {
-        id: compra.bodega_actual,
+        id: 1,
         nombre: 'Principal',
       },
     });
@@ -70,7 +70,7 @@ export class ComprasService {
     // For each plataforma in the list save in the db and new array
     const arrPlataformas = [];
     for (const plat of compra.plataformas) {
-      //plat.bodega_actual = belongsBodega.id;
+      plat.bodega_actual = belongsBodega;
       await this.plataformaRepository.save(plat);
       arrPlataformas.push(plat);
     }
@@ -162,7 +162,7 @@ export class ComprasService {
   }
 
   //Validar posiblemente no se utilice
-  async assignPlataformaCompra(
+  async assignPlataformasCompra(
     id: number,
     plataforma: AssignPlataformaCompraDto,
   ) {

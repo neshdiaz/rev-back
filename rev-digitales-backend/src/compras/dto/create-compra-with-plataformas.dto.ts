@@ -13,7 +13,4 @@ export class CreateCompraWithPlataformasDto {
 
   @IsNumber()
   proveedor: number;
-
-  @IsNumber()
-  bodega_actual: number;
 }
