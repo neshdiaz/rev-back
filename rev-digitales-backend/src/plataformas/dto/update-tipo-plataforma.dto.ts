@@ -2,10 +2,12 @@ import { IsString, IsOptional } from 'class-validator';
 
 export class UpdateTipoPlataformaDto {
   @IsString()
-  nombre: string;
+  @IsOptional()
+  nombre?: string;
 
   @IsString()
-  descripcion: string;
+  @IsOptional()
+  descripcion?: string;
 
   @IsOptional()
   @IsString()

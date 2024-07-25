@@ -2,23 +2,23 @@ import { IsEmail, IsNumber, IsOptional, IsString } from 'class-validator';
 import { CreateTipoPlataformaDto } from './create-tipo-plataforma.dto';
 
 export class UpdatePlataformaDto {
-  @IsEmail()
   @IsOptional()
+  @IsEmail()
   correo?: string;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   contrasena?: string;
 
-  @IsNumber()
   @IsOptional()
+  @IsNumber()
   costo_unitario_compra?: number;
 
-  @IsNumber()
   @IsOptional()
+  @IsNumber()
   vigencia?: number;
 
-  @IsNumber()
   @IsOptional()
+  @IsNumber()
   tipo_plataforma?: CreateTipoPlataformaDto;
 }

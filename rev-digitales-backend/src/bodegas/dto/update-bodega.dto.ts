@@ -1,16 +1,18 @@
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
 export class UpdateBodegaDto {
-  @IsString()
-  nombre: string;
-
-  @IsString()
-  descripcion: string;
-
-  @IsBoolean()
   @IsOptional()
+  @IsString()
+  nombre?: string;
+
+  @IsOptional()
+  @IsString()
+  descripcion?: string;
+
+  @IsOptional()
+  @IsBoolean()
   isPrincipal?: boolean;
 
-  @IsBoolean()
   @IsOptional()
+  @IsBoolean()
   isActive?: boolean;
 }

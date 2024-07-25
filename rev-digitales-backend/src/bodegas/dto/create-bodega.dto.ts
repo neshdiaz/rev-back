@@ -7,11 +7,11 @@ export class CreateBodegaDto {
   @IsString()
   descripcion: string;
 
-  @IsBoolean()
   @IsOptional()
+  @IsBoolean()
   isPrincipal?: boolean;
 
-  @IsBoolean()
   @IsOptional()
+  @IsBoolean()
   isActive?: boolean;
 }
